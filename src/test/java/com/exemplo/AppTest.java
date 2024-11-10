@@ -1,15 +1,12 @@
-package br.calebe.ticketmachine.core;
+package com.exemplo;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test class for PapelMoeda.
  */
-public class PapelMoedaTest {
+public class AppTest {
 
     @Test
     public void testGetValor() {
