@@ -2,6 +2,7 @@ package com.exemplo;
 
 import org.junit.Assert;
 import org.junit.Test;
+import br.calebe.ticketmachine.core.PapelMoeda; 
 
 /**
  * Test class for PapelMoeda.
