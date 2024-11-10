@@ -2,10 +2,9 @@ package com.exemplo;
 
 import org.junit.Assert;
 import org.junit.Test;
-import br.calebe.ticketmachine.core.PapelMoeda; 
+import br.calebe.ticketmachine.core.TicketMachine;
 import br.calebe.ticketmachine.exception.SaldoInsuficienteException;
 import br.calebe.ticketmachine.exception.PapelMoedaInvalidaException;
-import br.calebe.ticketmachine.core.TicketMachine;
 
 public class AppTest {
 
@@ -17,31 +16,28 @@ public class AppTest {
         Assert.assertEquals("*****************\n*** R$ 10,00 ****\n*****************\n", recibo);
     }
 
-    // Teste: Inserir dinheiro múltiplas vezes e checar saldo
     @Test(expected = SaldoInsuficienteException.class)
     public void testInserirDinheiroMultiplasVezes() throws PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(15);
         machine.inserir(5);
         machine.inserir(10);
-        Assert.assertEquals(15, machine.getSaldo()); // O saldo deve refletir a soma das quantias inseridas
+        Assert.assertEquals(15, machine.getSaldo());
     }
 
-    // Teste: Inserir valor inválido e verificar exceção
-    @Test(expected = SaldoInsuficienteException.class)
+    @Test(expected = PapelMoedaInvalidaException.class)
     public void testInserirValorInvalido() throws PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(20);
-        machine.inserir(3); // Valor inválido, pois não é um valor de papel-moeda aceito
+        machine.inserir(3); // Valor inválido
     }
 
-    // Teste: Saldo insuficiente após tentativa de emissão
     @Test(expected = SaldoInsuficienteException.class)
     public void testSaldoNaoAlteradoAposFalhaImpressao() {
+        TicketMachine machine = new TicketMachine(20); // Declara a variável fora do bloco try
         try {
-            TicketMachine machine = new TicketMachine(20);
             machine.inserir(10);
             machine.imprimir(); // Deve lançar SaldoInsuficienteException
         } catch (SaldoInsuficienteException | PapelMoedaInvalidaException e) {
-            // Captura a exceção e verifica se o saldo permanece o mesmo
+            // Verifica se o saldo permanece o mesmo
             Assert.assertEquals(10, machine.getSaldo());
         }
     }
