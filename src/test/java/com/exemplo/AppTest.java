@@ -1,12 +1,14 @@
-import br.calebe.ticketmachine.core.TicketMachine;
-import br.calebe.ticketmachine.exception.PapelMoedaInvalidaException;
-import br.calebe.ticketmachine.exception.SaldoInsuficienteException;
+package com.exemplo;
+
 import org.junit.Assert;
 import org.junit.Test;
+import br.calebe.ticketmachine.core.PapelMoeda; 
 
-public class TicketMachineTest {
+/**
+ * Test class for PapelMoeda.
+ */
+public class AppTest {
 
-    // Teste: Emitir ticket quando o saldo é exatamente o valor necessário
     @Test
     public void testEmitirTicketComSaldoExato() throws SaldoInsuficienteException, PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(10);
