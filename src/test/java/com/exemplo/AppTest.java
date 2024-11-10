@@ -1,44 +1,46 @@
-package com.exemplo;
-
+import br.calebe.ticketmachine.core.TicketMachine;
+import br.calebe.ticketmachine.exception.PapelMoedaInvalidaException;
+import br.calebe.ticketmachine.exception.SaldoInsuficienteException;
 import org.junit.Assert;
 import org.junit.Test;
-import br.calebe.ticketmachine.core.PapelMoeda; 
 
-/**
- * Test class for PapelMoeda.
- */
-public class AppTest {
+public class TicketMachineTest {
 
+    // Teste: Emitir ticket quando o saldo é exatamente o valor necessário
     @Test
-    public void testGetValor() {
-        PapelMoeda papelMoeda = new PapelMoeda(10, 5);
-        Assert.assertEquals("O valor do papel-moeda deve ser 10.", 10, papelMoeda.getValor());
+    public void testEmitirTicketComSaldoExato() throws SaldoInsuficienteException, PapelMoedaInvalidaException {
+        TicketMachine machine = new TicketMachine(10);
+        machine.inserir(10);
+        String recibo = machine.imprimir();
+        Assert.assertEquals("*****************\n*** R$ 10,00 ****\n*****************\n", recibo);
     }
 
+    // Teste: Inserir dinheiro múltiplas vezes e checar saldo
     @Test
-    public void testGetQuantidade() {
-        PapelMoeda papelMoeda = new PapelMoeda(10, 5);
-        Assert.assertEquals("A quantidade de papel-moeda deve ser 5.", 5, papelMoeda.getQuantidade());
+    public void testInserirDinheiroMultiplasVezes() throws PapelMoedaInvalidaException {
+        TicketMachine machine = new TicketMachine(15);
+        machine.inserir(5);
+        machine.inserir(10);
+        Assert.assertEquals(15, machine.getSaldo()); // O saldo deve refletir a soma das quantias inseridas
     }
 
-    @Test
-    public void testCriarPapelMoedaComValoresPositivos() {
-        PapelMoeda papelMoeda = new PapelMoeda(50, 2);
-        Assert.assertEquals("O valor do papel-moeda deve ser 50.", 50, papelMoeda.getValor());
-        Assert.assertEquals("A quantidade de papel-moeda deve ser 2.", 2, papelMoeda.getQuantidade());
+    // Teste: Inserir valor inválido e verificar exceção
+    @Test(expected = PapelMoedaInvalidaException.class)
+    public void testInserirValorInvalido() throws PapelMoedaInvalidaException {
+        TicketMachine machine = new TicketMachine(20);
+        machine.inserir(3); // Valor inválido, pois não é um valor de papel-moeda aceito
     }
 
+    // Teste: Saldo insuficiente após tentativa de emissão
     @Test
-    public void testCriarPapelMoedaComQuantidadeZero() {
-        PapelMoeda papelMoeda = new PapelMoeda(10, 0);
-        Assert.assertEquals("O valor do papel-moeda deve ser 10.", 10, papelMoeda.getValor());
-        Assert.assertEquals("A quantidade de papel-moeda deve ser 0.", 0, papelMoeda.getQuantidade());
-    }
-    
-    @Test
-    public void testCriarPapelMoedaComQuantidadeNegativa() {
-        PapelMoeda papelMoeda = new PapelMoeda(20, -3);
-        Assert.assertEquals("O valor do papel-moeda deve ser 20.", 20, papelMoeda.getValor());
-        Assert.assertEquals("A quantidade de papel-moeda deve ser -3.", -3, papelMoeda.getQuantidade());
+    public void testSaldoNaoAlteradoAposFalhaImpressao() {
+        try {
+            TicketMachine machine = new TicketMachine(20);
+            machine.inserir(10);
+            machine.imprimir(); // Deve lançar SaldoInsuficienteException
+        } catch (SaldoInsuficienteException | PapelMoedaInvalidaException e) {
+            // Captura a exceção e verifica se o saldo permanece o mesmo
+            Assert.assertEquals(10, machine.getSaldo());
+        }
     }
 }
