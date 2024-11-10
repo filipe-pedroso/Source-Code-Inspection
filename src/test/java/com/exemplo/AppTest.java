@@ -3,6 +3,9 @@ package com.exemplo;
 import org.junit.Assert;
 import org.junit.Test;
 import br.calebe.ticketmachine.core.PapelMoeda; 
+import br.calebe.ticketmachine.exception.SaldoInsuficienteException;
+import br.calebe.ticketmachine.exception.PapelMoedaInvalidaException;
+
 public class AppTest {
 
     @Test(expected = SaldoInsuficienteException.class)
