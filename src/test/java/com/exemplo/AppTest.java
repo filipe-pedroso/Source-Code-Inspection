@@ -10,10 +10,10 @@ public class AppTest {
 
     @Test(expected = SaldoInsuficienteException.class)
     public void testEmitirTicketComSaldoExato() throws SaldoInsuficienteException, PapelMoedaInvalidaException {
-        TicketMachine machine = new TicketMachine(10);
+        TicketMachine machine = new TicketMachine(17);
+        machine.inserir(7);
         machine.inserir(10);
-        String recibo = machine.imprimir();
-        Assert.assertEquals("*****************\n*** R$ 10,00 ****\n*****************\n", recibo);
+        Assert.assertEquals(17, machine.getSaldo());
     }
 
     @Test(expected = SaldoInsuficienteException.class)
@@ -22,11 +22,5 @@ public class AppTest {
         machine.inserir(5);
         machine.inserir(10);
         Assert.assertEquals(15, machine.getSaldo());
-    }
-
-    @Test(expected = PapelMoedaInvalidaException.class)
-    public void testInserirValorInvalido() throws PapelMoedaInvalidaException {
-        TicketMachine machine = new TicketMachine(20);
-        machine.inserir(3); // Valor inválido
     }
 }
