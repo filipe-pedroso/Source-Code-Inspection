@@ -5,6 +5,7 @@ import org.junit.Test;
 import br.calebe.ticketmachine.core.PapelMoeda; 
 import br.calebe.ticketmachine.exception.SaldoInsuficienteException;
 import br.calebe.ticketmachine.exception.PapelMoedaInvalidaException;
+import br.calebe.ticketmachine.core.TicketMachine;
 
 public class AppTest {
 
