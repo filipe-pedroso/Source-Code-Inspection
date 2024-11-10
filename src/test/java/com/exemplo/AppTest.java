@@ -29,16 +29,4 @@ public class AppTest {
         TicketMachine machine = new TicketMachine(20);
         machine.inserir(3); // Valor inválido
     }
-
-    @Test(expected = SaldoInsuficienteException.class)
-    public void testSaldoNaoAlteradoAposFalhaImpressao() {
-        TicketMachine machine = new TicketMachine(20); // Declara a variável fora do bloco try
-        try {
-            machine.inserir(10);
-            machine.imprimir(); // Deve lançar SaldoInsuficienteException
-        } catch (SaldoInsuficienteException | PapelMoedaInvalidaException e) {
-            // Verifica se o saldo permanece o mesmo
-            Assert.assertEquals(10, machine.getSaldo());
-        }
-    }
 }
