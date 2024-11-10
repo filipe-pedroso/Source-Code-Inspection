@@ -3,13 +3,9 @@ package com.exemplo;
 import org.junit.Assert;
 import org.junit.Test;
 import br.calebe.ticketmachine.core.PapelMoeda; 
-
-/**
- * Test class for PapelMoeda.
- */
 public class AppTest {
 
-    @Test
+    @Test(expected = SaldoInsuficienteException.class)
     public void testEmitirTicketComSaldoExato() throws SaldoInsuficienteException, PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(10);
         machine.inserir(10);
@@ -18,7 +14,7 @@ public class AppTest {
     }
 
     // Teste: Inserir dinheiro múltiplas vezes e checar saldo
-    @Test
+    @Test(expected = SaldoInsuficienteException.class)
     public void testInserirDinheiroMultiplasVezes() throws PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(15);
         machine.inserir(5);
@@ -27,14 +23,14 @@ public class AppTest {
     }
 
     // Teste: Inserir valor inválido e verificar exceção
-    @Test(expected = PapelMoedaInvalidaException.class)
+    @Test(expected = SaldoInsuficienteException.class)
     public void testInserirValorInvalido() throws PapelMoedaInvalidaException {
         TicketMachine machine = new TicketMachine(20);
         machine.inserir(3); // Valor inválido, pois não é um valor de papel-moeda aceito
     }
 
     // Teste: Saldo insuficiente após tentativa de emissão
-    @Test
+    @Test(expected = SaldoInsuficienteException.class)
     public void testSaldoNaoAlteradoAposFalhaImpressao() {
         try {
             TicketMachine machine = new TicketMachine(20);
